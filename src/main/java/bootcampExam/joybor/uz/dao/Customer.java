@@ -14,8 +14,8 @@ import java.math.BigInteger;
 public class Customer {
 
     @Id
-    @GeneratedValue(generator = "customer_id_seq")
-    @SequenceGenerator(name = "customer_id_seq",sequenceName = "customer_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "customer_id_seq",sequenceName = "customer_id_seq", allocationSize = 1)
     private Integer id;
 
     @Column(name = "name")

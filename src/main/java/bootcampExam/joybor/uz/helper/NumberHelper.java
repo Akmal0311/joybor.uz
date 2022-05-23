@@ -3,7 +3,7 @@ package bootcampExam.joybor.uz.helper;
 public class NumberHelper {
 
     public static boolean isNumberValid(Integer i){
-        return i != null && i >= 9 && i <= 12 ;
+        return i != null && i >= 9 ;
     }
 
     public static Integer toInt(String s){

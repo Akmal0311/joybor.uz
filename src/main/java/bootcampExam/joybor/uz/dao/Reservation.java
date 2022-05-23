@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
 @Entity
@@ -15,8 +16,8 @@ import java.util.Date;
 public class Reservation {
 
     @Id
-    @GeneratedValue(generator = "reservation_id_seq")
-    @SequenceGenerator(name = "reservation_id_seq", sequenceName = "reservation_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "reservation_id_seq", sequenceName = "reservation_id_seq",allocationSize = 1)
     private Integer id;
 
     @Column(name = "access_date")
@@ -28,13 +29,12 @@ public class Reservation {
     @Column(name = "checkin")
     private boolean checkin;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cus_id", referencedColumnName = "id")
-    private Customer customer;
+    @Column(name = "cus_id")
+    private Integer cus_id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
-    private Room room;
+    @Column(name = "room_id")
+    private Integer room_id;
+
 
     public Reservation(Integer id, Date access_date, Date checkout_date, boolean checkin) {
         this.id = id;

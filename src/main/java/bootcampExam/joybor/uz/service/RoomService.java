@@ -1,6 +1,5 @@
 package bootcampExam.joybor.uz.service;
 
-import bootcampExam.joybor.uz.dao.Hotel;
 import bootcampExam.joybor.uz.dao.Room;
 import bootcampExam.joybor.uz.dto.ResponseDTO;
 import bootcampExam.joybor.uz.dto.ValidatorDTO;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,17 +21,17 @@ public class RoomService {
 
     public ResponseDTO<Room> getRoomById(Integer id) {
 
-        Room room = roomRepository.getById(id);
+        Optional<Room> room = roomRepository.findById(id);
 
-        if (room != null) {
-            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, room);
+        if (room.isPresent()) {
+            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, room.get());
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
     }
 
     public ResponseDTO<List<Room>> getRooms(){
 
-        List<Room> rooms =  roomRepository.getRooms();
+        List<Room> rooms =  roomRepository.findAll();
 
         if (rooms != null){
             return new ResponseDTO<>(true,HttpCode.OK, HttpMessage.OK, rooms);
@@ -44,7 +44,7 @@ public class RoomService {
         try {
             List<ValidatorDTO> errors = Validation.validateRoom(room);
 
-            if (errors.size() > 0) return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
+            if (errors.size() > 0) return new ResponseDTO<>(false, HttpCode.VALIDATION_ERROR, HttpMessage.VALIDATION_ERROR, null);
 
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, room);
         }catch (Exception e){
@@ -66,7 +66,7 @@ public class RoomService {
     public ResponseDTO<Room> delete(Integer id) {
         roomRepository.deleteById(id);
 
-        if (roomRepository.getById(id) == null) {
+        if (roomRepository.findById(id).isPresent()) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, null );
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);

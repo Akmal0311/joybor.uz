@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +21,17 @@ public class ReviewService {
 
     public ResponseDTO<Review> getReviewById(Integer id) {
 
-        Review review = reviewRepository.getById(id);
+        Optional<Review> review = reviewRepository.findById(id);
 
-        if (review != null){
-            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, review);
+        if (review.isPresent()){
+            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, review.get());
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
     }
 
     public ResponseDTO<List<Review>> getReviews() {
 
-        List<Review> reviews = reviewRepository.getReviews();
+        List<Review> reviews = reviewRepository.findAll();
 
         if (reviews != null) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, reviews);
@@ -68,7 +69,7 @@ public class ReviewService {
     public ResponseDTO<Review> delete(Integer id) {
         reviewRepository.deleteById(id);
 
-        if (reviewRepository.getById(id) == null) {
+        if (reviewRepository.findById(id).isPresent()) {
             return new ResponseDTO<>(true,  HttpCode.OK, HttpMessage.OK, null);
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);

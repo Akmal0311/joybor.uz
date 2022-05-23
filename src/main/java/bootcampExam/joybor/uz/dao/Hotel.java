@@ -13,8 +13,9 @@ import javax.persistence.*;
 public class Hotel {
 
     @Id
-    @GeneratedValue(generator = "hotel_id_seq")
-    @SequenceGenerator(name = "hotel_id_seq",sequenceName = "hotel_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(generator = "hotel_id_seq")
+//    @SequenceGenerator(name = "hotel_id_seq",sequenceName = "hotel_id_seq",allocationSize = 1)
     private Integer id;
 
     @Column(name = "name")

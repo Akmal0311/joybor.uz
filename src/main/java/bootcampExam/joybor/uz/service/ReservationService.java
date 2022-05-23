@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +21,17 @@ public class ReservationService {
 
     public ResponseDTO<Reservation> getReservationById(Integer id) {
 
-         Reservation reservation = reservationRepository.getById(id);
+         Optional<Reservation> reservation = reservationRepository.findById(id);
 
-         if (reservation.isCheckin()){
-             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, reservation);
+         if (reservation.isPresent()){
+             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, reservation.get());
          }
          return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
     }
 
     public ResponseDTO<List<Reservation>> getReservations() {
 
-        List<Reservation> reservations = reservationRepository.getReservations();
+        List<Reservation> reservations = reservationRepository.findAll();
 
         if (!reservations.isEmpty()) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, reservations);
@@ -66,7 +67,7 @@ public class ReservationService {
     public ResponseDTO<Reservation> delete(Integer id) {
         reservationRepository.deleteById(id);
 
-        if (reservationRepository.getById(id) == null){
+        if (reservationRepository.findById(id).isPresent()){
             return new ResponseDTO<>(true,HttpCode.OK,HttpMessage.OK,null);
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);

@@ -15,8 +15,8 @@ import java.math.BigInteger;
 public class Room {
 
     @Id
-    @GeneratedValue(generator = "room_id_seq")
-    @SequenceGenerator(name = "room_id_seq",sequenceName = "room_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "room_id_seq",sequenceName = "room_id_seq",allocationSize = 1)
     private Integer id;
 
     @Column(name = "type")
@@ -25,9 +25,8 @@ public class Room {
     @Column(name = "price")
     private BigInteger price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
-    private Hotel hotel;
+    @Column(name = "hotel_id")
+    private Integer hotel_id;
 
     public Room(Integer id, String type, BigInteger price) {
         this.id = id;

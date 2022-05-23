@@ -16,15 +16,15 @@ public class Validation {
 
         errors.clear();
 
-        if (StringHelper.isValidField(hotel.getName())){
+        if (!StringHelper.isValidField(hotel.getName())){
             errors.add(new ValidatorDTO("name", HttpMessage.EMPTY_FIELD));
         }
 
-        if (StringHelper.isValidField(hotel.getAddress())){
+        if (!StringHelper.isValidField(hotel.getAddress())){
             errors.add(new ValidatorDTO("address", HttpMessage.EMPTY_FIELD));
         }
 
-        if (StringHelper.isValidField(hotel.getEmail())){
+        if (!StringHelper.isValidField(hotel.getEmail())){
             errors.add(new ValidatorDTO("email", HttpMessage.EMPTY_FIELD));
         }
 
@@ -35,19 +35,19 @@ public class Validation {
 
         errors.clear();
 
-        if (StringHelper.isValidField(customer.getName())){
+        if (!StringHelper.isValidField(customer.getName())){
             errors.add(new ValidatorDTO("name",HttpMessage.EMPTY_FIELD));
         }
 
-        if (StringHelper.isValidField(customer.getGender())){
+        if (!StringHelper.isValidField(customer.getGender())){
             errors.add(new ValidatorDTO("gender",HttpMessage.EMPTY_FIELD));
         }
 
-        if (NumberHelper.isCardNumber(customer.getCard_number().intValue())){
+        if (!NumberHelper.isCardNumber(customer.getCard_number().intValue())){
             errors.add(new ValidatorDTO("card_number", HttpMessage.NUMBER_FORMAT));
         }
 
-        if (NumberHelper.isNumberValid(customer.getTel_number().length())){
+        if (!NumberHelper.isNumberValid(customer.getTel_number().length())){
             errors.add(new ValidatorDTO("Tel_number",HttpMessage.NOT_FOUND));
         }
 
@@ -58,11 +58,11 @@ public class Validation {
 
         errors.clear();
 
-        if (DataHelper.isValidDate(reservation.getAccess_date().toString())){
+        if (!DataHelper.isValidDate(reservation.getAccess_date().toString())){
             errors.add(new ValidatorDTO("access_date", HttpMessage.DATE_FORMAT_YYYY_MM_DD));
         }
 
-        if (DataHelper.isValidDate(reservation.getCheckout_date().toString())){
+        if (!DataHelper.isValidDate(reservation.getCheckout_date().toString())){
             errors.add(new ValidatorDTO("checkout_date", HttpMessage.DATE_FORMAT_YYYY_MM_DD));
         }
 
@@ -73,15 +73,15 @@ public class Validation {
 
         errors.clear();
 
-        if (StringHelper.isValid(review.getTitle())){
+        if (!StringHelper.isValid(review.getTitle())){
             errors.add(new ValidatorDTO("title",HttpMessage.EMPTY_FIELD));
         }
 
-        if (StringHelper.isValid(review.getComment())){
+        if (!StringHelper.isValid(review.getComment())){
             errors.add(new ValidatorDTO("comment",HttpMessage.EMPTY_FIELD));
         }
 
-        if (StringHelper.isValid(review.getRating())){
+        if (!StringHelper.isValid(review.getRating())){
             errors.add(new ValidatorDTO("rating",HttpMessage.EMPTY_FIELD));
         }
 
@@ -92,11 +92,11 @@ public class Validation {
 
         errors.clear();
 
-        if (StringHelper.isValid(room.getType())){
+        if (!StringHelper.isValid(room.getType())){
             errors.add(new ValidatorDTO("type",HttpMessage.EMPTY_FIELD));
         }
 
-        if (NumberHelper.isNumberValid(room.getPrice().intValue())){
+        if (!NumberHelper.isNumberValid(room.getPrice().intValue())){
             errors.add(new ValidatorDTO("price",HttpMessage.MINUS_VALUE));
         }
 

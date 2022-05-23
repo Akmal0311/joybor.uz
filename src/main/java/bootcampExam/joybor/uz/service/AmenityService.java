@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,19 +19,19 @@ public class AmenityService {
 
     public ResponseDTO<Amenity> getAmenityById(Integer id) {
 
-        Amenity amenity = amenityRepository.getById(id);
+        Optional<Amenity> amenity = amenityRepository.findById(id);
 
-        if (amenity.isBreakfast()) {
-            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, amenity);
+        if (amenity.isPresent()) {
+            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, amenity.get());
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
     }
 
     public ResponseDTO<List<Amenity>> getAmenities() {
 
-        List<Amenity> amenities =  amenityRepository.getAmenities();
+        List<Amenity> amenities =  amenityRepository.findAll();
 
-        if(amenities != null) {
+        if(!amenities.isEmpty()) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, amenities );
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
@@ -62,7 +63,7 @@ public class AmenityService {
     public ResponseDTO<Amenity> delete(Integer id) {
         amenityRepository.deleteById(id);
 
-        if(!amenityRepository.getById(id).isRestaurant()) {
+        if(amenityRepository.findById(id).isPresent()) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, null );
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND , null);

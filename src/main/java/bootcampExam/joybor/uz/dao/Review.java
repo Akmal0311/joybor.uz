@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class Review {
 
     @Id
-    @GeneratedValue(generator = "review_id_seq")
-    @SequenceGenerator(name = "review_id_seq", sequenceName = "review_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "review_id_seq", sequenceName = "review_id_seq",allocationSize = 1)
     private Integer id;
 
     @Column(name = "title")
@@ -27,13 +27,11 @@ public class Review {
     @Column(name = "rating")
     private String rating;
 
-    @OneToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "cus_id", referencedColumnName = "id")
-    private Customer customer;
+    @Column(name = "cus_id")
+    private Integer cus_id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
-    private Hotel hotel;
+    @Column(name = "hotel_id")
+    private Integer hotel_id;
 
     public Review(Integer id, String title, String comment, String rating) {
         this.id = id;

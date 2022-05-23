@@ -9,14 +9,13 @@ import javax.persistence.*;
 @Table(name = "amenity")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class Amenity {
 
     @Id
-    @GeneratedValue(generator = "amenity_id_seq")
-    @SequenceGenerator(name = "amenity_id_seq", sequenceName = "amenity_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "amenity_id_seq", sequenceName = "amenity_id_seq", allocationSize = 1)
     private Integer id;
 
     @Column(name = "stars")
@@ -40,11 +39,10 @@ public class Amenity {
     @Column(name = "spa")
     private boolean spa;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
-    private Hotel hotel;
+    @Column(name = "hotel_id")
+    private Integer hotel_id;
 
-    public Amenity(Integer id, Integer stars, boolean breakfast, boolean restaurant, boolean wifi, boolean pool, boolean gym, boolean spa) {
+    public Amenity(Integer id, Integer stars, boolean breakfast, boolean restaurant, boolean wifi, boolean pool, boolean gym, boolean spa, Integer hotel_id) {
         this.id = id;
         this.stars = stars;
         this.breakfast = breakfast;
@@ -53,5 +51,6 @@ public class Amenity {
         this.pool = pool;
         this.gym = gym;
         this.spa = spa;
+        this.hotel_id = hotel_id;
     }
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +21,17 @@ public class HotelService {
 
     public ResponseDTO<Hotel> getHotelById(Integer id) {
 
-        Hotel hotel = hotelRepository.getById(id);
+        Optional<Hotel> hotel = hotelRepository.findById(id);
 
-        if (hotel != null) {
-            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, hotel );
+        if (hotel.isPresent()) {
+            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, hotel.get());
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
     }
 
     public ResponseDTO<List<Hotel>> getHotels(){
 
-        List<Hotel> hotels = hotelRepository.getHotels();
+        List<Hotel> hotels = hotelRepository.findAll();
 
         if(!hotels.isEmpty()) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, hotels);
@@ -65,7 +66,7 @@ public class HotelService {
 
         hotelRepository.deleteById(id);
 
-        if (hotelRepository.getById(id) == null) {
+        if (hotelRepository.findById(id).isPresent()) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK,  null);
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);

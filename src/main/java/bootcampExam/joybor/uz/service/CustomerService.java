@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +21,17 @@ public class CustomerService {
 
     public ResponseDTO<Customer> getCustomerById(Integer id) {
 
-        Customer customer = customerRepository.getById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
 
-        if (customer!=null) {
-            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, customer);
+        if (customer.isPresent()) {
+            return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, customer.get());
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND, HttpMessage.NOT_FOUND, null);
     }
 
     public ResponseDTO<List<Customer>> getCustomers() {
 
-        List<Customer> customers = customerRepository.getCustomers();
+        List<Customer> customers = customerRepository.findAll();
 
         if (customers != null) {
             return new ResponseDTO<>(true, HttpCode.OK, HttpMessage.OK, customers);
@@ -65,7 +66,7 @@ public class CustomerService {
     public ResponseDTO<Customer> delete(Integer id) {
         customerRepository.deleteById(id);
 
-        if(customerRepository.getById(id) == null) {
+        if(customerRepository.findById(id).isPresent()) {
             return new ResponseDTO<>(true,0,"OK", null);
         }
         return new ResponseDTO<>(false, HttpCode.NOT_FOUND , HttpMessage.NOT_FOUND, null);
